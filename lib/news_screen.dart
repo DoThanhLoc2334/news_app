@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'modelArticle.dart';
 import 'api_service.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key});
 
