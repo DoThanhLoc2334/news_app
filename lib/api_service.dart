@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'modelArticle.dart';
 
 class ApiService {
-  static const String apiUrl = "https://newapi.org/v2/top-headlines?country=us&apiKey=apiKey=YOUR_API_KEY";
+  static const String apiUrl = "https://newsapi.org/v2/top-headlines?country=us&apiKey=503e776287c44c3bab3b64cee0b84e02";
 
     static Future<List<ModelArticle>> fetchArticles() async{
     final response = await http.get(Uri.parse(apiUrl));
