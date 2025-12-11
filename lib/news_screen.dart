@@ -3,9 +3,38 @@ import 'modelArticle.dart';
 import 'api_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class NewsScreen extends StatelessWidget {
+class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
 
+  _NewsScreenState createState() => _NewsScreenState();
+}
+
+class _NewsScreenState extends State<NewsScreen> {
+  List<ModelArticle> _articles = [];
+  bool _loading = true;
+  String? _error;
+
+  Future<void> _loadArticles() async {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final data = await ApiService.fetchArticles();
+      setState(() {
+        _articles = data;
+        _loading = false;
+      });
+    }catch(e){
+        _error = e.toString();
+        _loading = false;
+    }
+  }
+
+  void initState(){
+    super.initState();
+    _loadArticles();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
