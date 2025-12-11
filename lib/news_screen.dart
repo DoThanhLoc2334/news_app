@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'modelArticle.dart';
 import 'api_service.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NewsScreen extends StatefulWidget {
   const NewsScreen({super.key});
@@ -12,6 +13,7 @@ class _NewsScreenState extends State<NewsScreen> {
   List<ModelArticle> _articles = [];
   bool _loading = true;
   String? _error;
+  Set<String> _likedArticles = {};
 
   void initState() {
     super.initState();
@@ -75,6 +77,43 @@ class _NewsScreenState extends State<NewsScreen> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      trailing: IconButton(
+                        onPressed: () {
+                          final id = article.id.isNotEmpty ? article.id : index.toString();
+
+                          setState(() {
+                            if (_likedArticles.contains(id)) {
+                              _likedArticles.remove(id);
+                            } else {
+                              _likedArticles.add(id);
+                            }
+                          });
+
+                          Fluttertoast.showToast(
+                            msg: _likedArticles.contains(id)
+                                ? "Liked post"
+                                : "Unliked post",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            backgroundColor: Colors.black87,
+                            textColor: Colors.white,
+                            fontSize: 14.0,
+                          );
+                        },
+                        icon: Icon(
+                          _likedArticles.contains(
+                            article.id.isNotEmpty ? article.id : index.toString(),
+                          )
+                              ? Icons.favorite
+                              : Icons.favorite_border,
+                          color: _likedArticles.contains(
+                            article.id.isNotEmpty ? article.id : index.toString(),
+                          )
+                              ? Colors.red
+                              : null,
+                        ),
+                      ),
+
                     ),
                   );
                 },
